@@ -44,10 +44,11 @@ fn model(_app: &App) -> Model {
 }
 
 fn update(_app: &App, _m: &mut Model, _update: Update) {
+    let t = _app.elapsed_frames() as f32 / 360.;
     _m.emitter.update();
-    if _app.elapsed_frames() < 1000 && random_f32() > 0.9 {
+    if _app.elapsed_frames() < 100 && random_f32() > 0.9 {
         _m.emitter.emit();
-        // _m.emitter.apply_force(vec2(0.0, -0.01));
+        // _m.emitter.apply_force(vec2(t.cos() * 0.005, t.sin() * 0.005));
     }
 }
 

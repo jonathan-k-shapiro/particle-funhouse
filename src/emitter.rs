@@ -86,13 +86,13 @@ impl Emitter {
             match &self.noise_field {
                 Some(noise) => {
                     let angle = TAU * noise.get([
-                        self.particles[i].position.x as f64/10.0,
-                        self.particles[i].position.y as f64/10.0,
+                        self.particles[i].position.x as f64/500.0, //opt noise_scale
+                        self.particles[i].position.y as f64/500.0,
                         0.0,
                     ])  as f32;
                     let dir = vec2(angle.cos(), angle.sin());
                     debug!("{:?}, {:?}", angle, dir);
-                    self.particles[i].update(Some(dir / 100.0));
+                    self.particles[i].update(Some(dir / 50.0));
                 },
                 None => {
                     self.particles[i].update(None);
