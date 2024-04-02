@@ -1,0 +1,21 @@
+capture_prefix = "particle_"
+
+[color_pickers]
+  [color_pickers.mono_green]
+    hue = 120
+    range_saturation = [0.3, 0.7]
+    range_lightness = [0.3, 0.7]
+    num_colors = 3
+
+  [color_pickers.rainbow]
+    range_hue = [0, 360]
+    saturation = 0.5
+    lightness = 0.5
+    num_colors = 10
+
+[emitters]
+  [emitters.emitter_1]
+    position = [0, 0]
+    velocity = [0, 0]
+    life_span = 512
+    color_picker = "rainbow"

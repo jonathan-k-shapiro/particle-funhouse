@@ -9,18 +9,18 @@ pub struct Particle {
     pub radius: f32,
     pub life_span: f32,
     pub init_life_span: f32,
-    pub hue: f32,
+    pub color: Hsla,
 }
 
 impl Particle {
-    pub fn new(pos: Point2, velocity: Vec2, hue: f32, radius: f32, life_span: f32) -> Self {
+    pub fn new(pos: Point2, velocity: Vec2, color: Hsla, radius: f32, life_span: f32) -> Self {
         let velocity = velocity;
         let position = pos;
         let acceleration = vec2(0.0, 0.0);
         let radius = radius;
         let life_span = life_span;
         let init_life_span = life_span;
-        let hue = hue;
+        let color = color;
         Particle {
             acceleration,
             velocity,
@@ -28,7 +28,7 @@ impl Particle {
             radius,
             life_span,
             init_life_span,
-            hue,
+            color,
         }
     }
 
@@ -52,10 +52,12 @@ impl Particle {
     // Method to display
     pub fn display(&self, draw: &Draw) {
         let r = self.radius * self.life_span / self.init_life_span;
+        let mut color = self.color;
+        color.alpha = self.life_span / self.init_life_span;
         draw.ellipse()
             .xy(self.position)
             .w_h(r, r)
-            .hsla(self.hue, 0.5, 0.5, self.life_span / self.init_life_span)
+            .color(color)
             .stroke(rgba(0.0, 0.0, 0.0, self.life_span / self.init_life_span))
             .stroke_weight(2.0);
     }
@@ -76,26 +78,26 @@ mod tests {
     use super::*;
     #[test]
     fn test_new() {
-        let  p = Particle::new(pt2(0.0, 0.0), vec2(1., 1.), 0.0, 4.0, 255.0);
+        let  p = Particle::new(pt2(0.0, 0.0), vec2(1., 1.), hsla(0.5, 0.5, 0.5, 1.), 4.0, 255.0);
         assert_eq!(p.position, pt2(0.0, 0.0));
         assert_eq!(p.velocity, vec2(1., 1.));
         assert_eq!(p.acceleration, vec2(0.0, 0.0));
         assert_eq!(p.radius, 4.0);
         assert_eq!(p.life_span, 255.0);
         assert_eq!(p.init_life_span, 255.0);
-        assert_eq!(p.hue, 0.0);
+        // assert_eq!(p.hue, 0.0);
     }
 
     #[test]
     fn test_update() {
-        let  mut p = Particle::new(pt2(0.0, 0.0), vec2(1., 1.), 0.0, 4.0, 255.0);
+        let  mut p = Particle::new(pt2(0.0, 0.0), vec2(1., 1.), hsla(0.5, 0.5, 0.5, 1.), 4.0, 255.0);
         p.update(None);
         assert_eq!(p.position, pt2(1.0, 1.0));
     }
 
     #[test]
     fn test_apply_force() {
-        let  mut p = Particle::new(pt2(0.0, 0.0), vec2(1., 1.), 0.0, 4.0, 255.0);
+        let  mut p = Particle::new(pt2(0.0, 0.0), vec2(1., 1.), hsla(0.5, 0.5, 0.5, 1.), 4.0, 255.0);
         p.apply_force(vec2(1., 1.));
         p.update(None);
         assert_eq!(p.acceleration, vec2(1., 1.));
@@ -104,7 +106,7 @@ mod tests {
 
     #[test]
     fn test_update_with_direction() {
-        let  mut p = Particle::new(pt2(0., 0.), vec2(1., 1.), 0.0, 4.0, 255.0);
+        let  mut p = Particle::new(pt2(0., 0.), vec2(1., 1.), hsla(0.5, 0.5, 0.5, 1.), 4.0, 255.0);
         p.update(Some(vec2(1., 1.)));
         assert_eq!(p.acceleration, vec2(0., 0.));
         assert_eq!(p.velocity, vec2(2., 2.));

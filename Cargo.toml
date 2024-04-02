@@ -11,3 +11,6 @@ pretty_env_logger ={ workspace = true }
 lazy_static = { workspace = true }
 structopt = { workspace = true }
 nannou = { workspace = true }
+serde = { workspace = true }
+toml = { workspace = true }
+tempfile = { workspace = true }

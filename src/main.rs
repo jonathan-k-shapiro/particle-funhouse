@@ -1,10 +1,18 @@
 extern crate nannou;
 
 use nannou::{color::named, prelude::*};
+use lazy_static::lazy_static;
 use log::*;
 
 pub mod particle;
 pub mod emitter;
+pub mod color_picker;
+pub mod config;
+
+lazy_static! { 
+    #[derive(Debug)]
+    pub static ref CONFIG: config::Config = config::read_config("config.toml");
+}
 
 struct Model {
     emitter: emitter::Emitter,
@@ -30,19 +38,22 @@ fn model(_app: &App) -> Model {
         right: r,
     };
 
-    let emitter = emitter::Emitter::with_noise_field(bounds, |bounds: emitter::Bounds| {
-        let w = bounds.right - bounds.left;
-        let h = bounds.top - bounds.bottom;
-        let pos = pt2(
-            ((random_f32() * 2. - 1.) * w / 2.).floor(), 
-            ((random_f32() * 2. - 1.) * h / 2.).floor(),
-        );
-        let vel = vec2(0., 0.); // vec2(random_f32() * 2.0 - 1.0, random_f32() - 1.0);
-        let hue = random_f32() * 360.0;
-        let radius = 10.0;
-        let life_span = 512.0;
-        particle::Particle::new(pos, vel, hue, radius, life_span)
-    });
+    // let emitter = emitter::Emitter::with_noise_field(bounds, |bounds: emitter::Bounds| {
+    //     let w = bounds.right - bounds.left;
+    //     let h = bounds.top - bounds.bottom;
+    //     let pos = pt2(
+    //         ((random_f32() * 2. - 1.) * w / 2.).floor(), 
+    //         ((random_f32() * 2. - 1.) * h / 2.).floor(),
+    //     );
+    //     let vel = vec2(0., 0.); // vec2(random_f32() * 2.0 - 1.0, random_f32() - 1.0);
+    //     let hue = 0.5; // random_f32() * 360.0;
+    //     let radius = 10.0;
+    //     let life_span = 512.0;
+    //     particle::Particle::new(pos, vel, hue, radius, life_span)
+    // });
+    // let mut emitter = emitter::Emitter::new(bounds);
+    let mut emitter = emitter::Emitter::from_config(CONFIG.emitters.as_ref().unwrap()["emitter_1"].clone(), bounds);
+    emitter.randomize_position = true; 
     Model {
         emitter,
     }
