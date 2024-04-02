@@ -11,7 +11,12 @@ struct Model {
 }
 
 fn model(_app: &App) -> Model {
-    _app.new_window().size(600,600).view(view).build().unwrap();
+    _app.new_window()
+        .size(600,600)
+        .key_released(key_released)
+        .view(view)
+        .build()
+        .unwrap();
 
     let r = _app.window_rect().right() as f32;
     let l = _app.window_rect().left() as f32;
@@ -46,7 +51,8 @@ fn model(_app: &App) -> Model {
 fn update(_app: &App, _m: &mut Model, _update: Update) {
     let t = _app.elapsed_frames() as f32 / 360.;
     _m.emitter.update();
-    if _app.elapsed_frames() < 100 && random_f32() > 0.9 {
+    // if _app.elapsed_frames() < 100 && random_f32() > 0.9 {
+    if random_f32() > 0.9 {
         _m.emitter.emit();
         // _m.emitter.apply_force(vec2(t.cos() * 0.005, t.sin() * 0.005));
     }
@@ -66,6 +72,30 @@ fn view(_app: &App, _m: &Model, frame: Frame){
    // Write the result of our drawing to the window's frame.
    draw.to_frame(_app, &frame).unwrap();
 
+}
+
+fn key_released(_app: &App, _model: &mut Model, key: Key) {
+    trace!("{:?}", key);
+    match key {
+        Key::Space => {
+            info!("Toggling pause");
+            _model.emitter.toggle_pause();
+        },
+        Key::S => {
+            let file_path = captured_frame_path(_app);
+            info!("Capturing frame to {:?}", file_path);
+            _app.main_window().capture_frame(file_path);
+        },
+        _ => {}
+    }
+}
+
+fn captured_frame_path(_app: &App) -> std::path::PathBuf {
+    _app.project_path()
+        .expect("failed to locate `project_path`")
+        .join("frames")
+        .join("out")
+        .with_extension("png")
 }
 
 fn main() {

@@ -64,9 +64,10 @@ impl Emitter {
 
     pub fn emit(&mut self) {
         if self.paused {
+            debug!("Emitter is paused");
             return;
         }
-        for _ in 0..100 {
+        for _ in 0..10 {
             self.particles.push((self.initializer)(self.bounds));
         }
     }
@@ -91,7 +92,7 @@ impl Emitter {
                         0.0,
                     ])  as f32;
                     let dir = vec2(angle.cos(), angle.sin());
-                    debug!("{:?}, {:?}", angle, dir);
+                    trace!("{:?}, {:?}", angle, dir);
                     self.particles[i].update(Some(dir / 50.0));
                 },
                 None => {
