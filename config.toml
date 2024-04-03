@@ -2,7 +2,7 @@ capture_prefix = "particle_"
 seed = 42
 window_width = 800
 window_height = 800
-use_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
+use_emitters = ["emitter_1"]
 
 [color_pickers]
 [color_pickers.mono_green]
@@ -32,10 +32,11 @@ num_colors = 10
 [emitters]
 [emitters.emitter_1]
 position = [0, 0]
-velocity = [0, 0]
+initial_velocity = [2, 2]
 life_span = 512
 flight_size = 1
 randomize_position = false
+randomize_velocity = true
 radius = 10
 stroke_weight = 2
 color_picker = "rainbow"

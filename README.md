@@ -10,10 +10,10 @@ Docs are under construction.
 - [ ] Kill particles on exit of window
 - [ ] Other types of noise fields
 - [ ] Repellers & Attractors
-- [ ] Validate simple physics
+- [x] Validate simple physics
 - [ ] Different types of randomizers
 - [ ] Color shifter (different from color picker; shift color according to, say, life_span)
-- [ ] Config file passed on command line. Default to no config (to test defaults)
+- [x] Config file passed on command line. Default to no config (to test defaults)
 - [ ] UI for dragging emitters around and recording positions
 
 

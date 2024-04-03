@@ -3,6 +3,7 @@ extern crate nannou;
 use lazy_static::lazy_static;
 use log::*;
 use nannou::prelude::*;
+use structopt::StructOpt;
 
 pub mod color_picker;
 pub mod config;
@@ -11,7 +12,16 @@ pub mod particle;
 
 lazy_static! {
     #[derive(Debug)]
-    pub static ref CONFIG: config::Config = config::read_config("config.toml");
+    pub static ref OPT: Opt = Opt::from_args();
+    pub static ref CONFIG: config::Config = config::read_config(&OPT.config_file);
+}
+
+#[derive(StructOpt, Debug)]
+#[structopt(name = "basic_particle", about = "Particle system with Perlin noise.")]
+pub struct Opt {
+    /// Configuration file
+    #[structopt(short, long, default_value = "")]
+    config_file: String,   
 }
 
 struct Model {
@@ -43,7 +53,7 @@ fn model(_app: &App) -> Model {
 
     let emitter_list = match CONFIG.use_emitters {
         Some(ref emitters) => emitters.clone(),
-        None => vec!["emitter_1".to_string()],
+        None => vec!["default".to_string()],
     };
     let mut emitters = Vec::new();
     for e in emitter_list.iter() {
@@ -67,7 +77,9 @@ fn update(_app: &App, _model: &mut Model, _update: Update) {
     for e in _model.emitters.iter_mut() {
         if random_f32() > 0.9 {
             e.emit();
-            // conditionally ?
+            
+            // conditionally apply force that changes over time
+            // e.apply_force(vec2(0. * 0.004, -1. * 0.002));
             // e.apply_force(vec2(_t.cos() * 0.005, _t.sin() * 0.005));
             // e.apply_force(vec2(-1. * 0.004, 1. * 0.002));
         }

@@ -11,6 +11,7 @@ pub struct Emitter {
     bounds: Bounds,
     color_picker: ColorPicker,
     flight_size: usize,
+    initial_velocity: Vec2,
     pub life_span: f32,
     noise_field: Option<nannou::noise::Perlin>,
     noise_scale: f64,
@@ -56,6 +57,7 @@ impl Emitter {
             randomize_position: false,
             randomize_velocity: true,
             flight_size: 10,
+            initial_velocity: vec2(0.0, 0.0),
             life_span: 512.0,
             radius: 10.0,
             stroke_weight: 2.0,
@@ -101,6 +103,7 @@ impl Emitter {
         };
         let randomize_position = config.randomize_position.unwrap_or(false);
         let randomize_velocity = config.randomize_velocity.unwrap_or(true);
+        let initial_velocity = config.initial_velocity.unwrap_or(vec2(0.0, 0.0));
         let life_span = config.life_span.unwrap_or(512.0);
         let noise_field_on = config.noise_field.unwrap_or(false);
         let noise_scale = config.noise_scale.unwrap_or(0.0);
@@ -129,6 +132,7 @@ impl Emitter {
             randomize_position,
             randomize_velocity,
             flight_size,
+            initial_velocity,
             life_span,
             bounds,
             paused: false,
@@ -151,19 +155,22 @@ impl Emitter {
             // todo: make different types of randomizers
             vec2(random_f32() * 2.0 - 1.0, random_f32() * 2.0 - 1.0)
         } else {
-            vec2(0.0, 0.0)
+            self.initial_velocity
         };
 
         let color = self.color_picker.get_next_color();
         trace!("color picked: {:?}", color);
-        Particle::new(
+        let mut particle = Particle::new(
             pos,
             vel,
             color,
             self.radius,
             self.stroke_weight,
             self.life_span,
-        )
+        );
+        // // Apply a one-time 'gravitational' force
+        // particle.apply_force(vec2(0.0, -0.02));
+        particle
     }
 
     pub fn emit(&mut self) {

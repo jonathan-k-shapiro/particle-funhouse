@@ -1,3 +1,4 @@
+use log::*;
 use nannou::prelude::*;
 use serde::*;
 use std::collections::HashMap;
@@ -7,7 +8,7 @@ use toml;
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     pub capture_prefix: Option<String>,
-    pub use_emitters: Option<Vec<String>>, 
+    pub use_emitters: Option<Vec<String>>,
     pub seed: Option<u32>,
     pub color_pickers: Option<HashMap<String, ColorPickerConfig>>,
     pub emitters: Option<HashMap<String, EmitterConfig>>,
@@ -32,6 +33,7 @@ pub struct ColorPickerConfig {
 pub struct EmitterConfig {
     pub color_picker: Option<String>,
     pub flight_size: Option<usize>,
+    pub initial_velocity: Option<Vec2>,
     pub life_span: Option<f32>,
     pub noise_field: Option<bool>,
     pub noise_scale: Option<f64>,
@@ -46,7 +48,30 @@ pub struct EmitterConfig {
 }
 
 pub fn read_config(filename: &str) -> Config {
-    let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
+    let contents = match fs::read_to_string(filename) {
+        Ok(contents) => contents,
+        Err(e) => {
+            info!("Error reading file: {}", e);
+            r#"
+            capture_prefix = "particle_"
+
+            [color_pickers]
+            [color_pickers.mono_green]
+                hue = 120
+                range_saturation = [0.3, 0.7]
+                range_lightness = [0.3, 0.7]
+            
+            [emitters]
+            [emitters.default]
+                position = [0, 0]
+                velocity = [0, 0]
+                life_span = 512
+                randomize_position = false
+                color_picker = "mono_green"
+            "#
+            .to_string()
+        }
+    };
     let config: Config = toml::from_str(&contents).unwrap();
     config
 }
