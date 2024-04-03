@@ -117,6 +117,9 @@ fn key_released(_app: &App, _model: &mut Model, key: Key) {
             info!("Capturing frame to {:?}", file_path);
             _app.main_window().capture_frame(file_path);
         }
+        Key::M => {
+            info!("Mouse Position: {:#?}", _app.mouse.position());
+        }
         _ => {}
     }
 }
