@@ -1,8 +1,8 @@
-use serde::*;
-use std::fs;
-use std::collections::HashMap;
-use toml;
 use nannou::prelude::*;
+use serde::*;
+use std::collections::HashMap;
+use std::fs;
+use toml;
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
@@ -10,7 +10,6 @@ pub struct Config {
     pub color_pickers: Option<HashMap<String, ColorPickerConfig>>,
     pub emitters: Option<HashMap<String, EmitterConfig>>,
 }
-
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct ColorPickerConfig {
@@ -28,8 +27,11 @@ pub struct ColorPickerConfig {
 #[derive(Debug, Deserialize, Clone)]
 pub struct EmitterConfig {
     pub randomize_position: Option<bool>,
+    pub flight_size: Option<usize>,
     pub position: Option<Vec2>,
     pub velocity: Option<Vec2>,
+    pub radius: Option<f32>,
+    pub stroke_weight: Option<f32>,
     pub life_span: Option<f32>,
     pub color_picker: Option<String>,
 }
@@ -42,9 +44,6 @@ pub fn read_config(filename: &str) -> Config {
 
 #[cfg(test)]
 mod tests {
-    use std::vec;
-    use tempfile::NamedTempFile;
-
     use super::*;
     #[test]
     fn test_basic() {
@@ -76,7 +75,10 @@ mod tests {
 
         let config: Config = toml::from_str(TEXT).unwrap();
         println!("{:#?}", config);
-        assert_eq!(config.color_pickers.unwrap()["mono_green"].hue.unwrap(), 120.0);
+        assert_eq!(
+            config.color_pickers.unwrap()["mono_green"].hue.unwrap(),
+            120.0
+        );
     }
 
     #[test]
@@ -95,6 +97,7 @@ mod tests {
             position = [0, 0]
             velocity = [0, 0]
             life_span = 512
+            randomize_position = false
             color_picker = "mono_green"
         "#;
 

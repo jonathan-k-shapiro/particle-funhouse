@@ -14,17 +14,15 @@
 * name
 * noise_scale
 * noise_strength
-* paused
-* bounds 
 * randomize_position
+* randomize_velocity
 * init_position
-* velocity_min
-* velocity_max
 * init_velocity
 * radius
 * stroke bool true -> draw outline of circle
 * life_span
 * life_span_fade
+* flight_size
 
 ### Color picker config
 
@@ -32,9 +30,8 @@
 * hue
 * saturation
 * lightness
-* randomize_hue_min
-* randomize_hue_max
-* randomize_saturation_min
-* randomize_saturation_max
+* range_hue
+* range_saturation
+* range_lightness
 
 ### Flow field config

@@ -1,5 +1,4 @@
-use nannou::{prelude::*, rand};
-use log::*;
+use nannou::prelude::*;
 use super::config::ColorPickerConfig;
 
 #[derive(Debug, Clone)]
@@ -8,10 +7,10 @@ pub struct ColorPicker {
     pub sat: f32, //0..1
     pub light: f32, //0..1
     pub alpha: f32, //0..1
-    pub rand_hue: Option<Vec2>,
-    pub rand_sat: Option<Vec2>,
-    pub rand_light: Option<Vec2>,
-    pub rand_alpha: Option<Vec2>,
+    pub range_hue: Option<Vec2>,
+    pub range_sat: Option<Vec2>,
+    pub range_light: Option<Vec2>,
+    pub range_alpha: Option<Vec2>,
     pub num_colors: usize,
     colors: Option<Vec<Hsla>>,
     current_color: usize,
@@ -25,20 +24,20 @@ impl ColorPicker {
         sat: f32,
         light: f32,
         alpha: f32,
-        rand_hue: Option<Vec2>,
-        rand_sat: Option<Vec2>,
-        rand_light: Option<Vec2>,
-        rand_alpha: Option<Vec2>,
+        range_hue: Option<Vec2>,
+        range_sat: Option<Vec2>,
+        range_light: Option<Vec2>,
+        range_alpha: Option<Vec2>,
     ) -> Self {
         ColorPicker {
             hue,
             sat,
             light,
             alpha,
-            rand_hue,
-            rand_sat,
-            rand_light,
-            rand_alpha,
+            range_hue,
+            range_sat,
+            range_light,
+            range_alpha,
             num_colors,
             colors: None,
             current_color: 0,
@@ -50,20 +49,20 @@ impl ColorPicker {
         let sat = config.saturation.unwrap_or(0.5);
         let light = config.lightness.unwrap_or(0.5);
         let alpha = config.alpha.unwrap_or(1.0);
-        let rand_hue = config.range_hue;
-        let rand_sat = config.range_saturation;
-        let rand_light = config.range_lightness;
-        let rand_alpha = config.range_alpha;
+        let range_hue = config.range_hue;
+        let range_sat = config.range_saturation;
+        let range_light = config.range_lightness;
+        let range_alpha = config.range_alpha;
         let num_colors = config.num_colors.unwrap_or(1);
         ColorPicker {
             hue,
             sat,
             light,
             alpha,
-            rand_hue,
-            rand_sat,
-            rand_light,
-            rand_alpha,
+            range_hue,
+            range_sat,
+            range_light,
+            range_alpha,
             num_colors,
             colors: None,
             current_color: 0,
@@ -91,20 +90,20 @@ impl ColorPicker {
 
     fn get_colors(&self, n: usize) -> Vec<Hsla> {
         let mut colors: Vec<Hsla> = Vec::new();
-        let hues = match self.rand_hue {
-            Some(rand_hue) => gen_values(n, rand_hue),
+        let hues = match self.range_hue {
+            Some(range_hue) => gen_values(n, range_hue),
             None => vec![self.hue; n],
         };
-        let sats = match self.rand_sat {
-            Some(rand_sat) => gen_values(n, rand_sat),
+        let sats = match self.range_sat {
+            Some(range_sat) => gen_values(n, range_sat),
             None => vec![self.sat; n],
         };
-        let lights = match self.rand_light {
-            Some(rand_light) => gen_values(n, rand_light),
+        let lights = match self.range_light {
+            Some(range_light) => gen_values(n, range_light),
             None => vec![self.light; n],
         };
-        let alphas = match self.rand_alpha {
-            Some(rand_alpha) => gen_values(n, rand_alpha),
+        let alphas = match self.range_alpha {
+            Some(range_alpha) => gen_values(n, range_alpha),
             None => vec![self.alpha; n],
         };
         for i in 0..n {
@@ -119,7 +118,7 @@ fn gen_values(n: usize, range: Vec2) -> Vec<f32> {
     let mut values = Vec::new();
     let golden_ratio_conjugate = 0.618033988749895;
     let mut h = random_f32();
-    for i in 0..n {
+    for _ in 0..n {
         h += golden_ratio_conjugate;
         h %= 1.0;
         let value =  h * (range[1] - range[0]) + range[0];

@@ -1,6 +1,6 @@
 extern crate nannou;
 
-use nannou::{color::named, prelude::*};
+use nannou::prelude::*;
 use lazy_static::lazy_static;
 use log::*;
 
@@ -26,11 +26,11 @@ fn model(_app: &App) -> Model {
         .build()
         .unwrap();
 
-    let r = _app.window_rect().right() as f32;
-    let l = _app.window_rect().left() as f32;
+    let r = _app.window_rect().right();
+    let l = _app.window_rect().left();
 
-    let t = _app.window_rect().top() as f32;
-    let b = _app.window_rect().bottom() as f32;
+    let t = _app.window_rect().top();
+    let b = _app.window_rect().bottom();
     let bounds: emitter::Bounds = emitter::Bounds {
         top: t,
         bottom: b,
@@ -52,20 +52,19 @@ fn model(_app: &App) -> Model {
     //     particle::Particle::new(pos, vel, hue, radius, life_span)
     // });
     // let mut emitter = emitter::Emitter::new(bounds);
-    let mut emitter = emitter::Emitter::from_config(CONFIG.emitters.as_ref().unwrap()["emitter_1"].clone(), bounds);
-    emitter.randomize_position = true; 
+    let emitter = emitter::Emitter::from_config(CONFIG.emitters.as_ref().unwrap()["emitter_1"].clone(), bounds);
     Model {
         emitter,
     }
 }
 
 fn update(_app: &App, _m: &mut Model, _update: Update) {
-    let t = _app.elapsed_frames() as f32 / 360.;
+    let _t = _app.elapsed_frames() as f32 / 360.;
     _m.emitter.update();
     // if _app.elapsed_frames() < 100 && random_f32() > 0.9 {
     if random_f32() > 0.9 {
         _m.emitter.emit();
-        // _m.emitter.apply_force(vec2(t.cos() * 0.005, t.sin() * 0.005));
+        // _m.emitter.apply_force(vec2(_t.cos() * 0.005, _t.sin() * 0.005));
     }
 }
 
