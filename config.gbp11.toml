@@ -1,5 +1,5 @@
 capture_prefix = "particle_"
-seed = 42
+seed = 123
 window_width = 800
 window_height = 800
 use_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
@@ -7,20 +7,20 @@ use_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
 [color_pickers]
 [color_pickers.mono_green]
 hue = 129
-saturation = 0.5
-range_lightness = [0.11, 0.23]
+saturation = 0.9
+range_lightness = [0.017, 0.23]
 num_colors = 5
 
 [color_pickers.mono_blue]
 hue = 227
 saturation = 0.7
-range_lightness = [0.0, 0.3]
+lightness = 0.1
 num_colors = 5
 
 [color_pickers.mono_purple]
 hue = 276
 saturation = 0.7
-range_lightness = [0.0, 0.3]
+lightness = 0.1
 num_colors = 5
 
 [color_pickers.rainbow]
@@ -36,46 +36,46 @@ velocity = [0, 0]
 life_span = 512
 flight_size = 1
 randomize_position = false
-radius = 10
+radius = 1
 stroke_weight = 2
 color_picker = "rainbow"
 
 [emitters.noise_field_green]
 position = [10.1, -10.1]
 velocity = [0, 0]
-life_span = 600
+life_span = 256
 noise_field = true
 noise_scale = 0.005
 noise_strength = 0.01
-flight_size = 10
-randomize_position = false
-radius = 4
+flight_size = 1000
+randomize_position = true
+radius = 10
 stroke_weight = 0
 color_picker = "mono_green"
-visualize_noise_field = true
+visualize_noise_field = false
 
 [emitters.noise_field_blue]
 position = [-200.1, -7.1]
 velocity = [0, 0]
-life_span = 600
+life_span = 100
 noise_field = true
-noise_scale = 0.006
-noise_strength = 0.05
-flight_size = 10
-randomize_position = false
-radius = 4
+noise_scale = 0.005
+noise_strength = 0.01
+flight_size = 1000
+randomize_position = true
+radius = 10
 stroke_weight = 0
 color_picker = "mono_blue"
 
 [emitters.noise_field_purple]
 position = [150.1, 150.1]
 velocity = [0, 0]
-life_span = 600
+life_span = 100
 noise_field = true
 noise_scale = 0.005
-noise_strength = 0.03
-flight_size = 10
-randomize_position = false
-radius = 4
+noise_strength = 0.01
+flight_size = 1000
+randomize_position = true
+radius = 10
 stroke_weight = 0
 color_picker = "mono_purple"

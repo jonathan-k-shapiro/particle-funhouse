@@ -1,5 +1,4 @@
 capture_prefix = "particle_"
-seed = 42
 window_width = 800
 window_height = 800
 use_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
@@ -52,7 +51,6 @@ randomize_position = false
 radius = 4
 stroke_weight = 0
 color_picker = "mono_green"
-visualize_noise_field = true
 
 [emitters.noise_field_blue]
 position = [-200.1, -7.1]

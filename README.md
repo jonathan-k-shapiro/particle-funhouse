@@ -1,37 +1,19 @@
 
-## Configuration
+# Particle Fun House
 
-### General config
+This project creates a config-driven environment for exploring generative art using particle systems. It's built in Rust on top of Nannou.
 
-* capture_prefix
-* emitters
-* flow_field
-* something_something_forces
+Docs are under construction.
+
+## Possible Improvements:
+
+- [ ] Kill particles on exit of window
+- [ ] Other types of noise fields
+- [ ] Repellers & Attractors
+- [ ] Validate simple physics
+- [ ] Different types of randomizers
+- [ ] Color shifter (different from color picker; shift color according to, say, life_span)
+- [ ] Config file passed on command line. Default to no config (to test defaults)
+- [ ] UI for dragging emitters around and recording positions
 
 
-### Emitter config
-
-* name
-* noise_scale
-* noise_strength
-* randomize_position
-* randomize_velocity
-* init_position
-* init_velocity
-* radius
-* stroke bool true -> draw outline of circle
-* life_span
-* life_span_fade
-* flight_size
-
-### Color picker config
-
-* name
-* hue
-* saturation
-* lightness
-* range_hue
-* range_saturation
-* range_lightness
-
-### Flow field config

@@ -7,8 +7,12 @@ use toml;
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     pub capture_prefix: Option<String>,
+    pub use_emitters: Option<Vec<String>>, 
+    pub seed: Option<u32>,
     pub color_pickers: Option<HashMap<String, ColorPickerConfig>>,
     pub emitters: Option<HashMap<String, EmitterConfig>>,
+    pub window_height: Option<u32>,
+    pub window_width: Option<u32>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -26,14 +30,19 @@ pub struct ColorPickerConfig {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct EmitterConfig {
-    pub randomize_position: Option<bool>,
-    pub flight_size: Option<usize>,
-    pub position: Option<Vec2>,
-    pub velocity: Option<Vec2>,
-    pub radius: Option<f32>,
-    pub stroke_weight: Option<f32>,
-    pub life_span: Option<f32>,
     pub color_picker: Option<String>,
+    pub flight_size: Option<usize>,
+    pub life_span: Option<f32>,
+    pub noise_field: Option<bool>,
+    pub noise_scale: Option<f64>,
+    pub noise_strength: Option<f32>,
+    pub position: Option<Point2>,
+    pub radius: Option<f32>,
+    pub randomize_position: Option<bool>,
+    pub randomize_velocity: Option<bool>,
+    pub stroke_weight: Option<f32>,
+    pub velocity: Option<Vec2>,
+    pub visualize_noise_field: Option<bool>,
 }
 
 pub fn read_config(filename: &str) -> Config {

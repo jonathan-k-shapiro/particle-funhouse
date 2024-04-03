@@ -1,10 +1,10 @@
-use nannou::prelude::*;
 use super::config::ColorPickerConfig;
+use nannou::prelude::*;
 
 #[derive(Debug, Clone)]
 pub struct ColorPicker {
-    pub hue: f32, //0..360
-    pub sat: f32, //0..1
+    pub hue: f32,   //0..360
+    pub sat: f32,   //0..1
     pub light: f32, //0..1
     pub alpha: f32, //0..1
     pub range_hue: Option<Vec2>,
@@ -15,7 +15,6 @@ pub struct ColorPicker {
     colors: Option<Vec<Hsla>>,
     current_color: usize,
 }
-
 
 impl ColorPicker {
     pub fn new(
@@ -87,7 +86,6 @@ impl ColorPicker {
         }
     }
 
-
     fn get_colors(&self, n: usize) -> Vec<Hsla> {
         let mut colors: Vec<Hsla> = Vec::new();
         let hues = match self.range_hue {
@@ -113,7 +111,6 @@ impl ColorPicker {
     }
 }
 
-
 fn gen_values(n: usize, range: Vec2) -> Vec<f32> {
     let mut values = Vec::new();
     let golden_ratio_conjugate = 0.618033988749895;
@@ -121,7 +118,7 @@ fn gen_values(n: usize, range: Vec2) -> Vec<f32> {
     for _ in 0..n {
         h += golden_ratio_conjugate;
         h %= 1.0;
-        let value =  h * (range[1] - range[0]) + range[0];
+        let value = h * (range[1] - range[0]) + range[0];
         values.push(value);
     }
     values
@@ -143,7 +140,17 @@ mod tests {
 
     #[test]
     fn test_randomized() {
-        let mut cp = ColorPicker::new(10, 0.5, 0.5, 0.5, 1.0, Some(vec2(0.0, 1.0)), None, None, None);
+        let mut cp = ColorPicker::new(
+            10,
+            0.5,
+            0.5,
+            0.5,
+            1.0,
+            Some(vec2(0.0, 1.0)),
+            None,
+            None,
+            None,
+        );
         for _ in 0..10 {
             let mut color = cp.get_next_color();
             color.alpha = 0.5;
