@@ -4,11 +4,7 @@ use lazy_static::lazy_static;
 use log::*;
 use nannou::prelude::*;
 use structopt::StructOpt;
-
-pub mod color_picker;
-pub mod config;
-pub mod emitter;
-pub mod particle;
+use particle_lib::*;
 
 lazy_static! {
     #[derive(Debug)]
@@ -29,11 +25,11 @@ struct Model {
 }
 
 fn model(_app: &App) -> Model {
-    let default_window_size : u32 = 600;
+    let default_window_size : f32 = 600.;
     let window_height = CONFIG.window_height.as_ref().unwrap_or(&default_window_size);
     let window_width =  CONFIG.window_width.as_ref().unwrap_or(&default_window_size); 
     _app.new_window()
-        .size(window_width.clone(), window_height.clone())  
+        .size(window_width.clone() as u32, window_height.clone() as u32)  
         .key_released(key_released)
         .view(view)
         .build()
@@ -51,16 +47,29 @@ fn model(_app: &App) -> Model {
         right: r,
     };
 
-    let emitter_list = match CONFIG.use_emitters {
+    let selected_emitters = match CONFIG.selected_emitters {
         Some(ref emitters) => emitters.clone(),
         None => vec!["default".to_string()],
     };
+    let color_pickers = match CONFIG.color_pickers {
+        Some(ref color_pickers) => color_pickers.clone(),
+        None => std::collections::HashMap::new(),
+    };
+    let movers = match CONFIG.movers {
+        Some(ref movers) => movers.clone(),
+        None => std::collections::HashMap::new(),
+    };
+    let seed = CONFIG.seed.unwrap_or(0);
     let mut emitters = Vec::new();
-    for e in emitter_list.iter() {
+    for e in selected_emitters.iter() {
         info!("emitter: {:?}", e);
         let emitter = emitter::Emitter::from_config(
+            e.to_string(),
             CONFIG.emitters.as_ref().unwrap()[e].clone(),
+            &color_pickers,
+            &movers,
             bounds,
+            seed,
         );  
         emitters.push(emitter); 
     }

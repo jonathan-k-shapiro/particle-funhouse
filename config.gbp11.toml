@@ -2,7 +2,7 @@ capture_prefix = "particle_"
 seed = 123
 window_width = 800
 window_height = 800
-use_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
+selected_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
 
 [color_pickers]
 [color_pickers.mono_green]

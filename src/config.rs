@@ -8,12 +8,13 @@ use toml;
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     pub capture_prefix: Option<String>,
-    pub use_emitters: Option<Vec<String>>,
     pub seed: Option<u32>,
-    pub color_pickers: Option<HashMap<String, ColorPickerConfig>>,
+    pub selected_emitters: Option<Vec<String>>,
+    pub window_height: Option<f32>,
+    pub window_width: Option<f32>,
     pub emitters: Option<HashMap<String, EmitterConfig>>,
-    pub window_height: Option<u32>,
-    pub window_width: Option<u32>,
+    pub color_pickers: Option<HashMap<String, ColorPickerConfig>>,
+    pub movers: Option<HashMap<String, MoverConfig>>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -32,19 +33,31 @@ pub struct ColorPickerConfig {
 #[derive(Debug, Deserialize, Clone)]
 pub struct EmitterConfig {
     pub color_picker: Option<String>,
+    pub mover: Option<String>,
     pub flight_size: Option<usize>,
     pub initial_velocity: Option<Vec2>,
     pub life_span: Option<f32>,
     pub noise_field: Option<bool>,
     pub noise_scale: Option<f64>,
     pub noise_strength: Option<f32>,
-    pub position: Option<Point2>,
+    pub origin: Option<Point2>,
     pub radius: Option<f32>,
     pub randomize_position: Option<bool>,
     pub randomize_velocity: Option<bool>,
     pub stroke_weight: Option<f32>,
     pub velocity: Option<Vec2>,
     pub visualize_noise_field: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct MoverConfig  {
+    pub mover_type: String,
+    pub inner: Vec2,
+    pub outer: Vec2,
+    pub scale: Vec2,
+    pub translation: Option<Vec2>,
+    pub rotation_angle: Option<f32>,
+    pub rotation_speed: Option<f32>,
 }
 
 pub fn read_config(filename: &str) -> Config {
@@ -101,7 +114,6 @@ mod tests {
 
         [color_pickers]
           [color_pickers.mono_green]
-            name = "mono_green"
             hue = 120
             range_saturation = [0.3, 0.7]
             some_bullshit = 0.7

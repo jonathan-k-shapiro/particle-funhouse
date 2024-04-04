@@ -14,6 +14,5 @@ Docs are under construction.
 - [ ] Different types of randomizers
 - [ ] Color shifter (different from color picker; shift color according to, say, life_span)
 - [x] Config file passed on command line. Default to no config (to test defaults)
-- [ ] UI for dragging emitters around and recording positions
 
 
