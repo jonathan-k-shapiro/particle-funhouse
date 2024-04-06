@@ -3,6 +3,7 @@ use nannou::prelude::*;
 
 #[derive(Debug, Clone)]
 pub struct ColorPicker {
+    pub name: String,
     pub hue: f32,   //0..360
     pub sat: f32,   //0..1
     pub light: f32, //0..1
@@ -29,6 +30,7 @@ impl ColorPicker {
         range_alpha: Option<Vec2>,
     ) -> Self {
         ColorPicker {
+            name: "unnamed".to_string(), // "unnamed
             hue,
             sat,
             light,
@@ -43,7 +45,7 @@ impl ColorPicker {
         }
     }
 
-    pub fn from_config(config: ColorPickerConfig) -> Self {
+    pub fn from_config(name: String, config: ColorPickerConfig) -> Self {
         let hue = config.hue.unwrap_or(0.0);
         let sat = config.saturation.unwrap_or(0.5);
         let light = config.lightness.unwrap_or(0.5);
@@ -54,6 +56,7 @@ impl ColorPicker {
         let range_alpha = config.range_alpha;
         let num_colors = config.num_colors.unwrap_or(1);
         ColorPicker {
+            name,
             hue,
             sat,
             light,

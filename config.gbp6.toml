@@ -1,7 +1,8 @@
 capture_prefix = "particle_"
-window_width = 800
-window_height = 800
-use_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
+window_width = 1200
+window_height = 1200
+seed = 123
+selected_emitters = ["noise_field_green", "noise_field_blue", "noise_field_purple"]
 
 [color_pickers]
 [color_pickers.mono_green]
@@ -24,8 +25,8 @@ num_colors = 5
 
 [color_pickers.rainbow]
 range_hue = [0, 360]
-saturation = 0.5
-lightness = 0.5
+saturation = 0.9
+lightness = 0.03
 num_colors = 10
 
 [emitters]
@@ -40,7 +41,8 @@ stroke_weight = 2
 color_picker = "rainbow"
 
 [emitters.noise_field_green]
-position = [10.1, -10.1]
+# position = [10.1, -10.1]
+position = [151.1, -256.1] # seed 123
 velocity = [0, 0]
 life_span = 600
 noise_field = true
@@ -51,9 +53,14 @@ randomize_position = false
 radius = 4
 stroke_weight = 0
 color_picker = "mono_green"
+# color_picker = "rainbow"
+# visualize_noise_field = true
 
 [emitters.noise_field_blue]
-position = [-200.1, -7.1]
+# position = [-200.1, -7.1]
+# position = [-240.1, 98.1]
+# position = [-200.1, -86.1] # seed 123
+position = [-368.1, -219.1] # seed 123
 velocity = [0, 0]
 life_span = 600
 noise_field = true
@@ -64,9 +71,11 @@ randomize_position = false
 radius = 4
 stroke_weight = 0
 color_picker = "mono_blue"
+# color_picker = "rainbow"
 
 [emitters.noise_field_purple]
-position = [150.1, 150.1]
+# position = [150.1, 150.1]
+position = [-258.1, 185.1] # seed 123
 velocity = [0, 0]
 life_span = 600
 noise_field = true
@@ -77,3 +86,4 @@ randomize_position = false
 radius = 4
 stroke_weight = 0
 color_picker = "mono_purple"
+# color_picker = "rainbow"

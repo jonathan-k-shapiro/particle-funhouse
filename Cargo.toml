@@ -14,3 +14,15 @@ structopt = "0.3.21"
 nannou = "0.19.0"
 serde = "1.0.130"
 toml = "0.8.12"
+
+[lib]
+name = "particle_lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "particle"
+path = "src/main.rs"
+
+[[bin]]
+name ="sketch"
+path = "src/sketch.rs"
