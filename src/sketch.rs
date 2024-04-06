@@ -8,7 +8,7 @@ use particle_lib::mover::Mover;
 
 fn main() {
     pretty_env_logger::init();
-    nannou::sketch(view).size(800, 800).run();
+    nannou::sketch(view).size(1600, 1600).run();
 }
 
 fn view(app: &App, frame: Frame) {
@@ -18,16 +18,19 @@ fn view(app: &App, frame: Frame) {
     let outer = vec2(0.3, 0.4);
     let inner = vec2(1., 3.);
     let translate = vec2(-200., 200.);
-    let index = app.time;
+    let index = app.time / 10.0;
 
     let config = MoverConfig {
         mover_type: "p_elipse".to_string(),
         inner,
         outer,
         scale: w_h,
+        translation: Some(translate),
+        rotation_angle: Some(0.),
+        rotation_speed: Some(0.),
     };  
     let mover = Mover::from_config("test_mover".to_string(), config);    
-    let position = mover.get_postion(index).rotate(index * 0.1) + translate;
+    let position = mover.get_postion(index);
 
     // let position = p_mover::epicycloid(index, -3., 3., 10., 3.3333, vec2(10., 10.));
     // let position = p_mover::p_trig(
